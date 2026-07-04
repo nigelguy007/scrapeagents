@@ -1,0 +1,58 @@
+# One-click deploy to Render so the app is reachable from your iPhone anywhere
+# (not just on your home Wi-Fi). See DEPLOY.md for the click-by-click steps.
+services:
+  - type: web
+    name: masterclass-agents
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    disk:
+      # Keeps accounts + usage data across restarts and deploys. Needs a paid
+      # plan (not "free") — Render's free tier has no persistent disk.
+      name: masterclass-agents-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
+    envVars:
+      # Your Anthropic API key — paste it in the Render dashboard (kept secret).
+      # With this set, everyone who logs in shares this one key — nobody else
+      # needs their own. Leave unset if you'd rather each person add their own
+      # key in the app's Settings.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      # An invite code required to create an account. Only people who have
+      # this code can sign up; after that they use their own username and
+      # password. Leave unset only for fully private/local use.
+      - key: SIGNUP_CODE
+        sync: false
+      # Signs login sessions. Set this to a long random string so sessions
+      # survive restarts/redeploys (otherwise everyone gets logged out each
+      # time you push new code). Generate one with, e.g., a password manager.
+      - key: SESSION_SECRET
+        sync: false
+      # Hard ceiling on the shared key's spend per month, across everyone.
+      # Once hit, people are asked to add their own key or wait until next
+      # month. Only applies to people using the shared key, not their own.
+      - key: MONTHLY_COST_CAP_USD
+        value: "50"
+      # Per-person daily message cap on the shared key (also doesn't apply to
+      # anyone using their own key). Ignored once billing (below) is on —
+      # each plan has its own cap instead.
+      - key: DAILY_MESSAGE_CAP
+        value: "40"
+      # Optional: change the model.
+      - key: CLAUDE_MODEL
+        value: claude-sonnet-5
+
+      # ── Optional: charge for access to the shared key (see DEPLOY.md) ──
+      # Leave all four blank to keep the app free (just the invite code).
+      # Set all four to turn on the Standard/Pro paywall.
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: STRIPE_PRICE_STANDARD
+        sync: false
+      - key: STRIPE_PRICE_PRO
+        sync: false

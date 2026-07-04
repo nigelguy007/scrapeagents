@@ -1,0 +1,6 @@
+node_modules/
+.env
+data/
+# personal knowledge notes stay local — see knowledge/README.md
+knowledge/*
+!knowledge/README.md
