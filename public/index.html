@@ -60,8 +60,9 @@
     border-right: 1px solid var(--line); display: flex; flex-direction: column;
   }
   .brand { padding: 20px; border-bottom: 1px solid var(--line); display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .brand .wordmark { height: 26px; width: auto; display: block; }
   .brand h1 { font-size: .95rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
-  .brand p { color: var(--muted); font-size: .8rem; margin-top: 4px; }
+  .brand p { color: var(--muted); font-size: .8rem; margin-top: 8px; }
   .icon-btn {
     background: var(--panel-2); border: 1px solid var(--line); color: var(--text);
     border-radius: 10px; width: 40px; height: 40px; font-size: 1.1rem; cursor: pointer;
@@ -221,8 +222,9 @@
   <aside id="sidebar" aria-label="Choose an agent">
     <div class="brand">
       <div>
-        <h1>Masterclass Agents</h1>
-        <p>The Award-Winning Web Developer · Juliemango Studios</p>
+        <h1 class="sr-only">Masterclass Agents · Juliemango Studios</h1>
+        <img class="wordmark" src="/wordmark.png" alt="JulieMango" width="423" height="72">
+        <p>The Award-Winning Web Developer · Masterclass Agents</p>
       </div>
       <button class="icon-btn" id="settings-btn" aria-label="Settings and API key" title="Settings">⚙</button>
     </div>
