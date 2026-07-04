@@ -314,7 +314,7 @@
       <p>Pick a plan to start chatting with all 8 agents.</p>
       <div class="plans" id="plans-grid"></div>
       <div class="key-status warn" id="paywall-status" role="status"></div>
-      <p class="note" style="margin-top:14px;">Changed your mind? <a href="#" id="paywall-logout">Log out</a> instead of subscribing.</p>
+      <p class="note" style="margin-top:14px;">Not ready yet? <a href="#" id="paywall-close">Go back</a> and look around, or <a href="#" id="paywall-logout">log out</a>.</p>
     </div>
   </div>
 
@@ -733,6 +733,8 @@ function openPaywall() {
   paywallStatus.textContent = "";
   paywallOverlay.classList.add("open");
 }
+function closePaywall() { paywallOverlay.classList.remove("open"); }
+paywallOverlay.onclick = (e) => { if (e.target === paywallOverlay) closePaywall(); };
 function renderPlans() {
   const card = (id, label, info, featured) => `
     <div class="plan-card${featured ? " featured" : ""}">
@@ -775,6 +777,7 @@ async function logout() {
   openAuth();
 }
 document.getElementById("paywall-logout").onclick = (e) => { e.preventDefault(); logout(); };
+document.getElementById("paywall-close").onclick = (e) => { e.preventDefault(); closePaywall(); };
 
 /* ── Settings modal ─────────────────────────── */
 let lastFocus = null;
@@ -876,6 +879,7 @@ document.getElementById("roster").addEventListener("keydown", e => {
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (overlay.classList.contains("open")) closeSettings();
+    else if (paywallOverlay.classList.contains("open")) closePaywall();
     else if (sidebar.classList.contains("open")) closeSidebar();
   }
 });
