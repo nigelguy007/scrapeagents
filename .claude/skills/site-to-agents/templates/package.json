@@ -1,0 +1,16 @@
+{
+  "name": "{{KEBAB_APP_NAME}}",
+  "version": "1.0.0",
+  "description": "AI agents built on the {{SOURCE_NAME}} methodology",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
