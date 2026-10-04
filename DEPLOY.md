@@ -24,6 +24,12 @@ API key that covers everyone's usage, and the guardrails that keep that safe.
    - **ANTHROPIC_API_KEY** — your key, if you're covering everyone's usage.
    - **SIGNUP_CODE** — the invite code you picked.
    - **SESSION_SECRET** — the random string you generated.
+   - **GUIDES_GITHUB_TOKEN** — lets the Guides Librarian read the private
+     `nigelguy007/aiguides` repo. On GitHub: **Settings → Developer settings →
+     Fine-grained tokens → Generate new token**, set **Repository access** to
+     *Only select repositories* → `aiguides`, and under **Permissions** give
+     **Contents: Read-only** and nothing else. Leave this blank and the other
+     agents still work; the librarian just reports its library is offline.
 4. Click **Apply / Create**. The plan is set to `starter` (a few dollars a
    month) because the **free plan has no persistent disk** — without it,
    every account and every dollar of usage tracking resets on each deploy,
@@ -64,6 +70,14 @@ Check current Anthropic pricing at console.anthropic.com and adjust
 tokens) if needed — the cost cap's accuracy depends on these being current.
 
 ## Notes
+- **The guide library refreshes itself.** The server re-reads
+  `data/guides.json` from the `aiguides` repo every 6 hours
+  (`GUIDES_REFRESH_HOURS`), and keeps the last good copy on the persistent
+  disk. To add new guides: rerun the scraper in that repo and push.
+- **The librarian costs more per message.** It sends up to 5 matching guides
+  with each message (about 8k extra input tokens), so expect each librarian
+  reply to cost roughly 3–4× a reply from the other agents. The cost caps
+  below count it like any other message.
 - **Set `SESSION_SECRET`.** If you don't, one gets generated randomly on
   each start, which signs everyone out on every restart/redeploy.
 - **The persistent disk is what makes this durable.** Without it (e.g. on

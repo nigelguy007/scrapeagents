@@ -231,7 +231,7 @@
       </div>
       <button class="icon-btn" id="settings-btn" aria-label="Settings and API key" title="Settings">⚙</button>
     </div>
-    <div class="roster-label" id="roster-label">8 specialist agents</div>
+    <div class="roster-label" id="roster-label">9 agents</div>
     <div class="roster" id="roster" role="listbox" aria-labelledby="roster-label" tabindex="0"></div>
   </aside>
 
@@ -379,7 +379,8 @@ const STARTERS = {
   "ai-workflow": ["Write me the first AI build prompt for a hero section.", "My AI output looks generic — what am I missing?"],
   "build-coach": ["I just signed my first $6k site. Walk me through week 1.", "How do I get design sign-off without endless revisions?"],
   "client-hunter": ["Write a cold outreach message to a funded startup founder.", "Script my discovery call for a $10k website."],
-  scaling: ["Turn one finished site into a repeatable system for me.", "Design my tier ladder from $5k to $20k."]
+  scaling: ["Turn one finished site into a repeatable system for me.", "Design my tier ladder from $5k to $20k."],
+  librarian: ["Which guides show how to set up Claude properly as a beginner?", "What's the quickest way to connect Claude to my social media accounts?"]
 };
 
 const getKey = () => localStorage.getItem("anthropic_key") || "";
@@ -468,11 +469,11 @@ async function loadApp() {
     b.innerHTML = `<span class="emoji" aria-hidden="true">${a.emoji}</span>
       <span><span class="name">${esc(a.name)}</span><br>
       <span class="tag">${esc(a.tagline)}</span>
-      ${a.hasKnowledge ? '<br><span class="kbadge">course notes loaded</span>' : ""}</span>`;
+      ${a.badge ? `<br><span class="kbadge">${esc(a.badge)}</span>` : ""}</span>`;
     b.onclick = () => selectAgent(a.id, true);
     roster.appendChild(b);
   });
-  document.getElementById("roster-label").textContent = agents.length + " specialist agents";
+  document.getElementById("roster-label").textContent = agents.length + " agents";
   selectAgent(agents[0].id);
   if (needsSubscription()) openPaywall();
   else if (needsKey()) openSettings();
@@ -502,6 +503,7 @@ function mdLite(text) {
   s = s.replace(/```([\s\S]*?)```/g, (_, c) => `<pre><code>${c.replace(/^\w+\n/, "")}</code></pre>`);
   s = s.replace(/`([^`\n]+)`/g, "<code>$1</code>");
   s = s.replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
+  s = s.replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)"]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
   return s;
 }
 

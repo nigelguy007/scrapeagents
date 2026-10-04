@@ -8,6 +8,7 @@ import bcrypt from "bcryptjs";
 import rateLimit from "express-rate-limit";
 import Stripe from "stripe";
 import { AGENTS, getAgent } from "./agents/agents.js";
+import { initGuides, guidesStatus, guidesContext } from "./lib/guides.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -106,6 +107,7 @@ const DATA_DIR = path.join(__dirname, "data");
 const USERS_FILE = path.join(DATA_DIR, "users.json");
 const USAGE_FILE = path.join(DATA_DIR, "usage.json");
 if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
+initGuides({ appDir: __dirname, dataDir: DATA_DIR });
 
 function readJson(file, fallback) {
   if (!existsSync(file)) return fallback;
@@ -327,9 +329,11 @@ if (BILLING_ENABLED) {
 
 app.get("/api/agents", requireAuth, (_req, res) => {
   res.json(
-    AGENTS.map(({ id, name, emoji, tagline, module, intro }) => ({
+    AGENTS.map(({ id, name, emoji, tagline, module, intro, usesGuides }) => ({
       id, name, emoji, tagline, module, intro,
-      hasKnowledge: existsSync(path.join(__dirname, "knowledge", `${id}.md`))
+      badge: usesGuides
+        ? (guidesStatus().loaded ? `${guidesStatus().loaded} guides loaded` : "guide library offline")
+        : (existsSync(path.join(__dirname, "knowledge", `${id}.md`)) ? "course notes loaded" : "")
     }))
   );
 });
@@ -418,7 +422,7 @@ app.post("/api/chat", chatLimiter, requireAuth, async (req, res) => {
         model: MODEL,
         max_tokens: 4096,
         stream: true,
-        system: agent.system + loadKnowledge(agent.id),
+        system: agent.system + loadKnowledge(agent.id) + (agent.usesGuides ? guidesContext(messages) : ""),
         messages: messages.map(m => ({ role: m.role, content: m.content }))
       })
     });

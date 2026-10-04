@@ -1,6 +1,6 @@
 # Masterclass Agents
 
-A self-hosted web app with **8 AI agents** — a virtual studio team covering
+A self-hosted web app with **9 AI agents** — a virtual studio team covering
 premium web design business: pricing & positioning, award-level design
 systems, reference deconstruction, an AI-assisted build workflow, end-to-end
 delivery, high-ticket client acquisition, and scaling a studio.
@@ -17,6 +17,11 @@ delivery, high-ticket client acquisition, and scaling a studio.
 | 🛠️ **High-End Build Coach** | Delivery | End-to-end coaching: strategy → direction → build → launch → case study |
 | 🎯 **High-Ticket Client Strategist** | Client acquisition | Niche selection, send-ready outreach, discovery/closing call scripts |
 | 📈 **Studio Scaling Operator** | Scaling | System extraction, productised tiers, delivery calendar, first hires, retainers |
+| 📚 **Guides Librarian** | Guide library | Answers from the ~380 free AI guides at fadeadeniyi.com/guides (stored in the private [`nigelguy007/aiguides`](https://github.com/nigelguy007/aiguides) repo), with links to the guides it used |
+
+The 📚 Guides Librarian is separate from the masterclass. The librarian doesn't load every guide into its prompt (they total ~450k
+tokens). Each message is keyword-searched against the library and only the 5
+best matches are sent along with it — see `lib/guides.js`.
 
 Each agent has its own conversation thread; switch between them in the
 sidebar. The UI works on desktop and phone, is keyboard- and screen-reader
@@ -65,6 +70,9 @@ use the hosted setup in `DEPLOY.md` instead.
 - `DAILY_MESSAGE_CAP` — per-person daily message limit on the shared key (default 40)
 - `PRICE_INPUT_PER_MTOK` / `PRICE_OUTPUT_PER_MTOK` — used to estimate spend against the cap; check current Anthropic pricing
 - `CLAUDE_MODEL` — defaults to `claude-sonnet-5`
+- `GUIDES_GITHUB_TOKEN` — read-only token for the private `aiguides` repo, used by the Guides Librarian (see `DEPLOY.md`)
+- `GUIDES_JSON_PATH` — use a local `guides.json` instead of fetching from GitHub. A clone of `aiguides` next to this folder (`../aiguides`) is picked up automatically
+- `GUIDES_REPO` / `GUIDES_BRANCH` / `GUIDES_REFRESH_HOURS` — where and how often to fetch the guides (defaults `nigelguy007/aiguides`, `main`, `6`)
 - `PORT` — defaults to `3456` (hosts like Render set this automatically)
 
 ## Extending an agent with your own notes
@@ -80,7 +88,9 @@ original notes, not for pasting in anyone else's copyrighted material.
 - `server.js` — Express server: serves the UI, handles accounts/sessions,
   enforces the cost caps and rate limits, and proxies streaming chat to the
   Anthropic Messages API
-- `agents/agents.js` — the 8 agent definitions and their system prompts
+- `agents/agents.js` — the 9 agent definitions and their system prompts
+- `lib/guides.js` — loads the guide library from the `aiguides` repo and
+  picks the guides that best match each librarian message
 - `public/index.html` — dependency-free, accessible, installable chat UI
   (sign-up/login/recovery, Settings, streaming chat)
 - `public/manifest.webmanifest`, `icon*.png/svg` — home-screen app icon

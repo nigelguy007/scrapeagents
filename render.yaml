@@ -41,6 +41,13 @@ services:
       # each plan has its own cap instead.
       - key: DAILY_MESSAGE_CAP
         value: "40"
+      # Guides Librarian: read-only access to the private nigelguy007/aiguides
+      # repo, where the guide library lives. Create a fine-grained GitHub token
+      # limited to that one repo with "Contents: Read-only" (see DEPLOY.md).
+      # Without it the other 8 agents work normally; the librarian just says
+      # its library is offline.
+      - key: GUIDES_GITHUB_TOKEN
+        sync: false
       # Optional: change the model.
       - key: CLAUDE_MODEL
         value: claude-sonnet-5
