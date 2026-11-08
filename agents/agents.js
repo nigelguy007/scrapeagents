@@ -1,5 +1,5 @@
 // Agent definitions built on the curriculum of "The Award-Winning Web Developer"
-// Masterclass by Zera Studio (zerasoftwarestudio.com/masterclass).
+// program by Zera Studio (zerasoftwarestudio.com/masterclass).
 //
 // Each agent embodies one module of the 8-module program:
 //   01 The $5K–$20K Website Model
@@ -16,7 +16,7 @@
 
 const SHARED_CONTEXT = `
 You are one of a team of specialist agents modelled on the "Award-Winning Web
-Developer" Masterclass by Zera Studio — a program that teaches designers and
+Developer" curriculum by Zera Studio — a program that teaches designers and
 developers how to move from $1K–$3K commodity websites to $5K–$20K high-end,
 award-grade engagements using a structured design system, a reference &
 deconstruction method, and an AI-assisted build workflow.

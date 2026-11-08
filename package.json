@@ -1,7 +1,7 @@
 {
-  "name": "masterclass-agents",
+  "name": "juliemango-studios",
   "version": "1.0.0",
-  "description": "AI agents built on the Award-Winning Web Developer Masterclass (Zera Studio) curriculum",
+  "description": "AI agents built on the Award-Winning Web Developer curriculum (Zera Studio)",
   "main": "server.js",
   "type": "module",
   "scripts": {

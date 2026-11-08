@@ -1,10 +1,10 @@
 #!/bin/bash
-# Double-click this file on a Mac to start the Masterclass Agents app.
+# Double-click this file on a Mac to start the JulieMango Studios app.
 # It installs what's needed (once), starts the server, and opens your browser.
 
 cd "$(dirname "$0")" || exit 1
 
-echo "── Masterclass Agents ──────────────────────────"
+echo "── JulieMango Studios ──────────────────────────"
 
 # Check Node is installed
 if ! command -v node >/dev/null 2>&1; then

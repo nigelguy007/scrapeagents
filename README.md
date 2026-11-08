@@ -1,4 +1,4 @@
-# Masterclass Agents
+# JulieMango Studios
 
 A self-hosted web app with **8 AI agents** — a virtual studio team covering
 premium web design business: pricing & positioning, award-level design

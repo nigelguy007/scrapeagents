@@ -482,7 +482,7 @@ function lanAddress() {
 // Bind to 0.0.0.0 so other devices on the same network (your iPhone) can connect.
 app.listen(PORT, "0.0.0.0", () => {
   const lan = lanAddress();
-  console.log("\n  Masterclass Agents is running.\n");
+  console.log("\n  JulieMango Studios is running.\n");
   console.log(`  On this computer:  http://localhost:${PORT}`);
   if (lan) console.log(`  On your iPhone:    http://${lan}:${PORT}   (same Wi-Fi)`);
   console.log(`\n  Model: ${MODEL}`);
